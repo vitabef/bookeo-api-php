@@ -47,12 +47,20 @@ class Holds extends Client
      *
      * @return \Bookeo\Interfaces\QueryInterface
      */
-    public function create(HoldCreate $create): QueryInterface
+    public function create(HoldCreate $create, $previousHoldId = '', $holdDurationSeconds = 300): QueryInterface
     {
+        if (!empty($previousHoldId)) {
+            $this->appendToQuery('previousHoldId', $previousHoldId);
+        }
+
+        if (!empty($holdDurationSeconds)) {
+            $this->appendToQuery('holdDurationSeconds', $holdDurationSeconds);
+        }
+
         // Set HTTP params
         $this->type     = 'post';
         $this->endpoint = '/holds?' . $this->getQuery();
-        $this->params   = $create;
+        $this->params = $create;
         $this->response = Hold::class;
 
         return $this;
