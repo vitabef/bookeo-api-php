@@ -37,7 +37,6 @@ class HoldCreate extends Model
         return [
             'productId',
             'eventId',
-            'customer',
             'participants',
         ];
     }
